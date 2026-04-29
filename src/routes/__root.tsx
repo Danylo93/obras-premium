@@ -1,7 +1,6 @@
-import { Outlet, Link, createRootRoute, HeadContent, Scripts, useLocation } from "@tanstack/react-router";
+import { Outlet, Link, createRootRoute, useLocation } from "@tanstack/react-router";
 import { Toaster } from "sonner";
 import { LayoutDashboard, ReceiptText, Crown, User } from "lucide-react";
-import appCss from "../styles.css?url";
 import { cn } from "@/lib/utils";
 
 function NotFoundComponent() {
@@ -27,42 +26,14 @@ function NotFoundComponent() {
 }
 
 export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Obras Master - Premium" },
-      { name: "description", content: "Gerenciador de gastos de obras premium" },
-      { name: "author", content: "Obras Master" },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-    ],
-  }),
-  shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
 });
 
-function RootShell({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="pt-BR">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Toaster richColors position="top-right" />
-        <Scripts />
-      </body>
-    </html>
-  );
-}
-
 function RootComponent() {
+  return (
+    <>
+      <Toaster richColors position="top-right" />
   const location = useLocation();
   
   const navItems = [
@@ -71,8 +42,7 @@ function RootComponent() {
     { label: "Perfil", icon: User, to: "/perfil" },
   ];
 
-  return (
-    <div className="flex flex-col min-h-screen bg-[#F9FAFB]">
+      <div className="flex flex-col min-h-screen bg-[#F9FAFB]">
       <div className="flex-1 pb-20 md:pb-0">
         <Outlet />
       </div>
@@ -136,5 +106,6 @@ function RootComponent() {
         {/* The content is already rendered by Outlet above, this is just for spacing if needed */}
       </div>
     </div>
+    </>
   );
 }
