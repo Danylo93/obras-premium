@@ -33,7 +33,7 @@ export const Route = createRootRoute({
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Obras Master - Premium" },
       { name: "description", content: "Gerenciador de gastos de obras premium" },
-      { name: "author", content: "Lovable" },
+      { name: "author", content: "Obras Master" },
     ],
     links: [
       {
