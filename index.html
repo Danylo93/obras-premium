@@ -3,9 +3,29 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Obras Master - Premium</title>
-    <meta name="description" content="Gerenciador de gastos de obras premium" />
+    <title>Obras Master – Premium</title>
+    <meta name="description" content="Gestão financeira de obras de construção civil — controle total de gastos, orçamentos e equipes." />
     <meta name="author" content="Obras Master" />
+    <meta name="theme-color" content="#3b82f6" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏗️</text></svg>" />
+
+    <!-- Prevent dark-mode flash -->
+    <script>
+      (function () {
+        try {
+          var s = JSON.parse(localStorage.getItem("obras_settings") || "{}");
+          var t =
+            s.theme === "light"
+              ? "light"
+              : s.theme === "dark"
+                ? "dark"
+                : window.matchMedia("(prefers-color-scheme: dark)").matches
+                  ? "dark"
+                  : "light";
+          if (t === "dark") document.documentElement.classList.add("dark");
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

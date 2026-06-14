@@ -1,4 +1,12 @@
-export type Category = 'Material' | 'Mão de Obra' | 'Gasolina' | 'Insumos' | 'Equipamentos' | 'Outros';
+export type Category =
+  | "Material"
+  | "Mão de Obra"
+  | "Gasolina"
+  | "Insumos"
+  | "Equipamentos"
+  | "Outros";
+
+export type ProjectStatus = "Em andamento" | "Concluído" | "Pausado";
 
 export interface Expense {
   id: string;
@@ -7,14 +15,23 @@ export interface Expense {
   category: Category;
   date: string;
   employeeName?: string;
+  notes?: string;
+  invoiceNumber?: string;
+  paid?: boolean;
 }
 
 export interface Project {
   id: string;
   name: string;
   clientName: string;
+  clientPhone?: string;
+  address?: string;
   expenses: Expense[];
   createdAt: string;
-  status: 'Em andamento' | 'Concluído' | 'Pausado';
+  startDate?: string;
+  deadline?: string;
+  status: ProjectStatus;
   budget?: number;
+  notes?: string;
+  completionPct?: number; // 0–100, physical completion manually set by user
 }

@@ -1,0 +1,101 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: ObrasMaster Premium — Serverless API (DynamoDB + Lambda + HTTP API)
+
+Globals:
+  Function:
+    Runtime: nodejs20.x
+    Timeout: 15
+    MemorySize: 256
+    Architectures:
+      - arm64
+    Environment:
+      Variables:
+        TABLE_NAME: !Ref ObrasTable
+
+  HttpApi:
+    CorsConfiguration:
+      AllowOrigins:
+        - "*"
+      AllowHeaders:
+        - "Content-Type"
+        - "x-user-id"
+      AllowMethods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - OPTIONS
+
+Resources:
+  # ── DynamoDB — free tier permanente: 25 GB + 25 RCU + 25 WCU ───────────────
+  ObrasTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "obras-master-${AWS::StackName}"
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: projectId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+        - AttributeName: projectId
+          KeyType: RANGE
+
+  # ── Lambda Function ──────────────────────────────────────────────────────────
+  ProjectsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "obras-projects-${AWS::StackName}"
+      CodeUri: functions/projects/
+      Handler: handler.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ObrasTable
+      Events:
+        ListProjects:
+          Type: HttpApi
+          Properties:
+            Path: /projects
+            Method: GET
+        ImportProjects:
+          Type: HttpApi
+          Properties:
+            Path: /projects
+            Method: POST
+        DeleteAll:
+          Type: HttpApi
+          Properties:
+            Path: /projects
+            Method: DELETE
+        UpsertProject:
+          Type: HttpApi
+          Properties:
+            Path: /projects/{id}
+            Method: PUT
+        DeleteProject:
+          Type: HttpApi
+          Properties:
+            Path: /projects/{id}
+            Method: DELETE
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: es2022
+        Sourcemap: false
+        EntryPoints:
+          - handler.ts
+        External:
+          - "@aws-sdk/*"
+
+Outputs:
+  ApiUrl:
+    Description: "URL da API — coloque em VITE_API_URL no .env.local e na Vercel"
+    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com"
+  TableName:
+    Description: "Nome da tabela DynamoDB criada"
+    Value: !Ref ObrasTable

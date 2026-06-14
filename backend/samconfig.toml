@@ -1,0 +1,17 @@
+version = 0.1
+
+[default.global.parameters]
+stack_name = "obras-master"
+region     = "us-east-1"
+
+[default.build.parameters]
+cached = true
+parallel = true
+
+[default.deploy.parameters]
+stack_name        = "obras-master"
+region            = "us-east-1"
+confirm_changeset = false
+capabilities      = "CAPABILITY_IAM"
+resolve_s3        = true
+no_fail_on_empty_changeset = true

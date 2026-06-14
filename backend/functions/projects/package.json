@@ -1,0 +1,14 @@
+{
+  "name": "obras-projects-function",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.741.0",
+    "@aws-sdk/lib-dynamodb": "^3.741.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.149",
+    "typescript": "^5.8.3"
+  }
+}
