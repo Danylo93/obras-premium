@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useProjects } from "@/hooks/useProjects";
-import { projectTotal, addExpense, deleteProject, restoreProject, updateProject, deadlineDaysLeft, seedDemoData, duplicateProject } from "@/store/projects";
+import { projectTotal, addExpense, deleteProject, restoreProject, updateProject, deadlineDaysLeft, duplicateProject } from "@/store/projects";
 import { formatBRL, formatDate, formatRelativeDate } from "@/lib/format";
 import { CategoryBadge } from "@/components/CategoryBadge";
 import { CATEGORY_COLORS, PROJECT_STATUSES } from "@/lib/categories";
@@ -650,18 +650,7 @@ function Dashboard() {
             icon={HardHat}
             title="Nenhuma obra cadastrada"
             description="Crie sua primeira obra para começar a controlar os gastos."
-            action={
-              <div className="flex flex-wrap gap-3 justify-center">
-                <AddProjectDialog />
-                <Button
-                  variant="outline"
-                  className="gap-2 rounded-xl font-bold"
-                  onClick={() => { seedDemoData(); toast.success("3 obras de demonstração carregadas!"); }}
-                >
-                  <BarChart3 className="h-4 w-4" /> Carregar Demo
-                </Button>
-              </div>
-            }
+            action={<AddProjectDialog />}
           />
         ) : filteredProjects.length === 0 ? (
           <EmptyState
